@@ -1,8 +1,9 @@
 import requests
 import json
 import pandas as pd
+#import pprint
 
-accuweatherAPIKey = 'insira_sua_chave_aqui'
+accuweatherAPIKey = '4pG0UzWLq2OznGI6QQBMLfwgVM9uBVMR'
 
 r = requests.get('http://www.geoplugin.net/json.gp')
 
@@ -14,7 +15,7 @@ else:
     lon = localizacao['geoplugin_longitude']
     LocationAPIURL = 'http://dataservice.accuweather.com/locations/v1/cities/geoposition/' \
     + 'search?apikey='+ accuweatherAPIKey +'&q='+ lat + ',' + lon +'&language=pt-br'
-    
+
     r2 = requests.get(LocationAPIURL)
     if r2.status_code != 200:
         print('Não foi possível obter a locaização.')
@@ -34,6 +35,10 @@ else:
             texto_noite = []
             temp_max = []
             temp_min = []
+            cidade = []
+            estado = []
+            pais = []
+
             conteudo_previsao = json.loads(r3.text)
 
             dias_previsao = conteudo_previsao['DailyForecasts']
@@ -44,10 +49,27 @@ else:
                 temp_max.append(item_previsao['Temperature']['Maximum']['Value'])
                 temp_min.append(item_previsao['Temperature']['Minimum']['Value'])
 
+            
+            while len(cidade) < len(data):
+                cidade.append(location_response['LocalizedName'])
+                estado.append(location_response['AdministrativeArea']['LocalizedName'])
+                pais.append(location_response['Country']['LocalizedName'])
 
-            df = pd.DataFrame({'data': data, 'texto_dia': texto_dia,'texto_noite': texto_noite, 'temp_max': temp_max, 'temp_min':temp_min})
-            df.to_csv('cinco_dias_previsao.csv', sep=';', index = False)
 
+
+            df = pd.DataFrame({'data': data, 
+                                'texto_dia': texto_dia,
+                                'texto_noite': texto_noite, 
+                                'temp_max': temp_max, 
+                                'temp_min':temp_min, 
+                                'cidade': cidade, 
+                                'estado': estado, 
+                                'pais': pais})
+
+            df.to_csv('dados/cinco_dias_previsao.csv', sep=';', index = False)
+
+            print(nome_local)
+            print(df)
             
 
 
