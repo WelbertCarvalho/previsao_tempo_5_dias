@@ -4,7 +4,7 @@ import pandas as pd
 
 class ConexaoApi:
     def __init__(self, accuweatherAPIKey):
-        self.accuweatherAPIKey = '4pG0UzWLq2OznGI6QQBMLfwgVM9uBVMR'
+        self.accuweatherAPIKey = accuweatherAPIKey
         self.lat = 'geoplugin_latitude'
         self.lon = 'geoplugin_longitude'
 
