@@ -3,7 +3,7 @@ import json
 import pandas as pd
 #import pprint
 
-accuweatherAPIKey = '4pG0UzWLq2OznGI6QQBMLfwgVM9uBVMR'
+accuweatherAPIKey = 'Insira aqui sua APIKey'
 
 r = requests.get('http://www.geoplugin.net/json.gp')
 
